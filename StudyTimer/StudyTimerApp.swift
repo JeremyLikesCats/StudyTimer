@@ -1,6 +1,6 @@
 //
-//  StudyTrackerApp.swift
-//  StudyTracker
+//  StudyTimerApp.swift
+//  StudyTimer
 //
 //  Created by Jeremy Zhou on 13/7/2026.
 //
@@ -8,7 +8,7 @@
 import SwiftUI
 
 @main
-struct StudyTrackerApp: App {
+struct StudyTimerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

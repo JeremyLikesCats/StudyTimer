@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		CDE3CA383004AB200098AD3A /* StudyTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudyTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CDE3CA383004AB200098AD3A /* StudyTimer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = StudyTimer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		CDE3CA3A3004AB200098AD3A /* StudyTracker */ = {
+		CDE3CA3A3004AB200098AD3A /* StudyTimer */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = StudyTracker;
+			path = StudyTimer;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -32,7 +32,7 @@
 		CDE3CA2F3004AB200098AD3A = {
 			isa = PBXGroup;
 			children = (
-				CDE3CA3A3004AB200098AD3A /* StudyTracker */,
+				CDE3CA3A3004AB200098AD3A /* StudyTimer */,
 				CDE3CA393004AB200098AD3A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -40,7 +40,7 @@
 		CDE3CA393004AB200098AD3A /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				CDE3CA383004AB200098AD3A /* StudyTracker.app */,
+				CDE3CA383004AB200098AD3A /* StudyTimer.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -48,9 +48,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		CDE3CA373004AB200098AD3A /* StudyTracker */ = {
+		CDE3CA373004AB200098AD3A /* StudyTimer */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CDE3CA433004AB210098AD3A /* Build configuration list for PBXNativeTarget "StudyTracker" */;
+			buildConfigurationList = CDE3CA433004AB210098AD3A /* Build configuration list for PBXNativeTarget "StudyTimer" */;
 			buildPhases = (
 				CDE3CA343004AB200098AD3A /* Sources */,
 				CDE3CA353004AB200098AD3A /* Frameworks */,
@@ -61,13 +61,13 @@
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				CDE3CA3A3004AB200098AD3A /* StudyTracker */,
+				CDE3CA3A3004AB200098AD3A /* StudyTimer */,
 			);
-			name = StudyTracker;
+			name = StudyTimer;
 			packageProductDependencies = (
 			);
 			productName = StudyTracker;
-			productReference = CDE3CA383004AB200098AD3A /* StudyTracker.app */;
+			productReference = CDE3CA383004AB200098AD3A /* StudyTimer.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -85,7 +85,7 @@
 					};
 				};
 			};
-			buildConfigurationList = CDE3CA333004AB200098AD3A /* Build configuration list for PBXProject "StudyTracker" */;
+			buildConfigurationList = CDE3CA333004AB200098AD3A /* Build configuration list for PBXProject "StudyTimer" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -99,7 +99,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CDE3CA373004AB200098AD3A /* StudyTracker */,
+				CDE3CA373004AB200098AD3A /* StudyTimer */,
 			);
 		};
 /* End PBXProject section */
@@ -332,7 +332,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		CDE3CA333004AB200098AD3A /* Build configuration list for PBXProject "StudyTracker" */ = {
+		CDE3CA333004AB200098AD3A /* Build configuration list for PBXProject "StudyTimer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CDE3CA413004AB210098AD3A /* Debug */,
@@ -341,7 +341,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CDE3CA433004AB210098AD3A /* Build configuration list for PBXNativeTarget "StudyTracker" */ = {
+		CDE3CA433004AB210098AD3A /* Build configuration list for PBXNativeTarget "StudyTimer" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CDE3CA443004AB210098AD3A /* Debug */,

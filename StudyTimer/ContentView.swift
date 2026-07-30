@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  StudyTracker
+//  StudyTimer
 //
 //  Created by Jeremy Zhou on 13/7/2026.
 //
