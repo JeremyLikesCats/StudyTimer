@@ -10,6 +10,7 @@ struct ContentView: View {
     @AppStorage("defaultMode") private var defaultModeRaw = TimerSettings.default.defaultMode.rawValue
     
     @State private var timer = TimerModel()
+    @State private var subjects = SubjectsModel()
     
     private var settings: TimerSettings {
         TimerSettings(
@@ -20,10 +21,14 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            TimerView(timer: timer)
+            TimerView(timer: timer, subjects: subjects)
                 .onAppear {
-                    timer.setDuration(as: (countdownMinutes * 60))
+                    timer.setDuration(as: (countdownMinutes * 60)) // Set Duration of timer
                 }
+            Text("Hello, World!")
+                .font(.title)
+                .padding()
+                .glassEffect(.regular.tint(.orange).interactive())
         }
     }
 }
