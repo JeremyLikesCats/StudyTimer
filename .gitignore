@@ -1,0 +1,89 @@
+# Xcode
+build/
+DerivedData/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata/
+*.xccheckout
+*.moved-aside
+*.xcuserstate
+*.xcscmblueprint
+*.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/
+*.xcworkspace/xcuserdata/
+
+# Build
+*.ipa
+*.dSYM.zip
+*.dSYM
+*.app
+
+# Playgrounds
+timeline.xctimeline
+playground.xcworkspace
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Packages/
+Package.resolved
+
+# CocoaPods
+Pods/
+*.xcworkspace
+!default.xcworkspace
+
+# Carthage
+Carthage/Build/
+Carthage/Checkouts/
+
+# Fastlane
+fastlane/report.xml
+fastlane/Preview.html
+fastlane/screenshots/**/*.png
+fastlane/test_output
+
+# Accio dependency management
+Dependencies/
+.accio/
+
+# macOS
+.DS_Store
+**/.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# IDEs / editors
+*.swp
+*~
+.idea/
+.vscode/
+*.code-workspace
+
+# Secrets / local config
+*.env
+.env.*
+!.env.example
+Secrets.xcconfig
+*/Secrets/
+*.mobileprovision
+*.cer
+*.p12
+*.pem
+
+# App thinning
+AppThinningSizeReport.txt
