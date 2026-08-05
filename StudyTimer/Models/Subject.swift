@@ -11,5 +11,4 @@ struct Subject: Identifiable {
     let id: UUID
     var title: String
     var color: String // Use HEX string
-    
 }
