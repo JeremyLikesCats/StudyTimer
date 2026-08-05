@@ -8,43 +8,62 @@
 import SwiftUI
 
 struct ChooseSubjectView: View {
+    
     @Bindable var subjects: SubjectsModel
     @Binding var selectedSubjectID: UUID?
+    
+    @State var showingAddSubjectView: Bool = false
+    
     var body: some View {
         NavigationStack {
-            ScrollView {
-                LazyVStack(spacing: 20) {
-                    ForEach(subjects.subjects) { subject in
-                        // Add logic for row here
-                        SubjectCapsuleRow(
-                            subject: subject,
-                            subtitle: "25:00",
-                            isSelected: subject.id == selectedSubjectID
-                        ) {
-                            selectedSubjectID = subject.id
+            GeometryReader { geo in
+                ZStack {
+                    ScrollView {
+                        LazyVStack(spacing: 20) {
+                            ForEach(subjects.subjects) { subject in
+                                // Add logic for row here
+                                SubjectCapsuleRow(
+                                    subject: subject,
+                                    subtitle: "25:00",
+                                    isSelected: subject.id == selectedSubjectID
+                                ) {
+                                    selectedSubjectID = subject.id
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 50)
+                        .padding(.vertical, 12)
+                        .offset(x: showingAddSubjectView ? -geo.size.width : 0)
+                        
+                    }
+                    .toolbar {
+                        ToolbarItem(placement: .topBarLeading) {
+                            Button {
+                                showingAddSubjectView.toggle()
+                            } label: {
+                                Image(systemName: showingAddSubjectView ? "xmark" : "plus")
+                            }
+                        }
+                        ToolbarItem(placement: .topBarTrailing) {
+                            Button {
+                                // action
+                            } label: {
+                                Image(systemName: "ellipsis")
+                            }
                         }
                     }
-                }
-                .padding(.horizontal, 50)
-                .padding(.vertical, 12)
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.black.ignoresSafeArea())
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button {
-                        // action
-                    } label: {
-                        Image(systemName: "plus")
+                    
+                    if showingAddSubjectView {
+                        AddSubjectView(subjects: subjects)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .transition(.move(edge: .trailing).combined(with: .opacity))
+                            .zIndex(1)
                     }
                 }
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        // action
-                    } label: {
-                        Image(systemName: "ellipsis")
-                    }
-                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.black.ignoresSafeArea())
+                .animation(.easeOut, value: showingAddSubjectView)
+                
             }
         }
 
