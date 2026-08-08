@@ -8,36 +8,86 @@
 import SwiftUI
 
 struct AddSubjectView: View {
-    
+
     @Bindable var subjects: SubjectsModel
-    
+    @FocusState private var isTextFieldFocused: Bool
+
+    // Other stuff
+    @Binding var showing: Bool
     
     // Subject properties
     @State private var subjectColor: Color = .primary
     @State private var subjectName: String = ""
     
+    @State private var saveHapticTick = 0 // Workaround for making the haptic only trigger when clicking save
     var body: some View {
         ZStack {
-            HStack(spacing: 15) {
-                ColorPicker("", selection: $subjectColor)
-                    .labelsHidden()
-                    .scaleEffect(40/28) // match the 40pt - typically colorpicker is 28pt
-                    .frame(width: 40, height: 40)
-                
-                
+            VStack {
+                ZStack {
+                    TextField("Subject Title", text: $subjectName)
+                        .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: true, vertical: false)
+                        .focused($isTextFieldFocused)
+                        .onAppear {
+                            // 3. Trigger the keyboard after a slight delay for reliable rendering
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+                                isTextFieldFocused = true
+                            }
+                        }
+                    HStack(spacing: 15) {
+                        ColorPicker("", selection: $subjectColor)
+                            .labelsHidden()
+                            .scaleEffect(40/28) // match the 40pt - typically colorpicker is 28pt
+                            .frame(width: 40, height: 40)
+                            .onTapGesture {
+                                isTextFieldFocused = false
+                            }
+                        
+                        
+                        Spacer()
+                        Button {
+                            isTextFieldFocused = false
+                            saveHapticTick += 1
+                            let newSubject = Subject(
+                                    id: UUID(),
+                                    title: subjectName,
+                                    color: subjectColor.toHexString() ?? ""
+                                )
+                            
+                            
+                            Task { @MainActor in
+                                try? await Task.sleep(for: .milliseconds(50))
+                                Task { @MainActor in
+                                    withAnimation(.spring(response: 0.45, dampingFraction: 0.8))  { showing = false }
+                                }
+                                Task { @MainActor in
+                                    withAnimation(.spring(response: 0.45, dampingFraction: 0.8))  { subjects.subjects.insert(newSubject, at: 0) }
+                                }
 
+                            }
+                        } label: {
+                            Image(systemName: "checkmark")
+                        }
+                        .buttonStyle(.plain)
+                        .frame(width: 40, height: 40)
+                        .glassEffect()
+                        .sensoryFeedback(.success, trigger: saveHapticTick)
+                    }
+                    
+                    
+                }
+                .frame(maxWidth: .infinity, alignment: .center)
                 
-                Spacer()
+                
+                
             }
-            .padding(.horizontal, 15)
-            .padding(.vertical, 15)
         }
-        
-        .frame(maxWidth: .infinity)
-        .contentShape(Capsule())
-        .glassEffect(.regular.interactive(), in: .capsule)
-        .padding(.horizontal, 50)      // ← AFTER glass: pulls capsule in from screen edges
-        .padding(.vertical, 12)
+        .padding(15)
+        .contentShape(RoundedRectangle(cornerRadius: 40)) // Corner radius is subject height / 2 so 40 / 2 = 20
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
+}
+
+#Preview {
+    ContentView()
 }

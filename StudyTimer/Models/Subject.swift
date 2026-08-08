@@ -7,8 +7,9 @@
 
 import SwiftUI
 
-struct Subject: Identifiable {
+struct Subject: Identifiable, Equatable {
     let id: UUID
     var title: String
     var color: String // Use HEX string
+    
 }
