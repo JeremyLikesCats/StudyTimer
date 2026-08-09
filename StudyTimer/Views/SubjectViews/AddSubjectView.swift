@@ -28,11 +28,10 @@ struct AddSubjectView: View {
                         .multilineTextAlignment(.center)
                         .fixedSize(horizontal: true, vertical: false)
                         .focused($isTextFieldFocused)
-                        .onAppear {
-                            // 3. Trigger the keyboard after a slight delay for reliable rendering
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
-                                isTextFieldFocused = true
-                            }
+                        .task(id: showing) {
+                            guard showing else { return }
+                            try? await Task.sleep(for: .milliseconds(200))
+                            isTextFieldFocused = true
                         }
                     HStack(spacing: 15) {
                         ColorPicker("", selection: $subjectColor)

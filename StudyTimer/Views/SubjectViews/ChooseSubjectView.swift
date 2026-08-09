@@ -10,92 +10,105 @@ import SwiftUI
 struct ChooseSubjectView: View {
 
     @Bindable var subjects: SubjectsModel
-    @Binding var showingSubjectList: Bool
-    
+
     @State var showingAddSubjectView: Bool = false
-    @State private var addSubjectVisible = false
-    
+    @State private var addSubjectVisible: Bool = false
+    @Environment(\.dismiss) var dismiss
 
     var body: some View {
-        NavigationStack {
             GlassEffectContainer {
-                ZStack {
-                    ScrollView {
-                        VStack(spacing:15) {
-                            if showingAddSubjectView {
-                                AddSubjectView(subjects: subjects, showing: $showingAddSubjectView)
-                                    .frame(maxWidth: .infinity)
-                                    .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 40))
-                                    .transition(.opacity)
-                            }
-                            VStack(spacing: 15) {
-
-                                ForEach(subjects.subjects) { subject in
-                                    SubjectCapsuleRow(
-                                        subject: subject,
-                                        subtitle: "25:00",
-                                        isSelected: subject.id == subjects.selectedSubject?.id
-                                    ) {
-                                        subjects.selectedSubject = subject
-                                        withAnimation(.spring(response: 0.45, dampingFraction: 0.8)) {
-                                            showingSubjectList = false
-                                        }
-                                    }
-                                    .glassEffect()
-                                }
-                            }
+                ScrollView {
+                    VStack(spacing: 15) {
+                        if showingAddSubjectView {
+                            AddSubjectView(subjects: subjects, showing: $showingAddSubjectView)
+                                .frame(maxWidth: .infinity)
+                                .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 40))
+                                .transition(.opacity)
                         }
-                        
-                        
-                    }
-                    .padding(.horizontal, 50)
-                    .padding(.vertical, 12)
-                    .toolbar {
-                        ToolbarItem(placement: .topBarLeading) {
-                            if showingAddSubjectView {
-                                Button {
-                                    withAnimation(.spring(response: 0.45, dampingFraction: 0.8)) {
-                                        showingAddSubjectView.toggle()
-                                    }
-                                } label: {
-                                    Image(systemName: "xmark")
+                        VStack(spacing: 15) {
+                            ForEach(subjects.subjects) { subject in
+                                SubjectCapsuleRow(
+                                    subject: subject,
+                                    subtitle: "25:00",
+                                    isSelected: subject.id == subjects.selectedSubject?.id
+                                ) {
+                                    subjects.selectedSubject = subject
+                                    UIApplication.shared.sendAction(
+                                        #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil
+                                    )
+                                    dismiss()
                                 }
-                            } else {
-                                Button {
-                                    withAnimation(.spring(response: 0.45, dampingFraction: 0.8)) {
-                                        showingAddSubjectView.toggle()
-                                    }
-                                } label: {
-                                    Image(systemName: "plus")
-                                }
-                            }
-
-                        }
-                        ToolbarItem(placement: .topBarTrailing) {
-                            Button {
-                                // action
-                            } label: {
-                                Image(systemName: "ellipsis")
+                                .glassEffect()
                             }
                         }
                     }
                 }
+                .scrollIndicators(.hidden)
+                .contentMargins(.horizontal, 50, for: .scrollContent)
+                // Clear the floating header and footer buttons.
+                .contentMargins(.top, 80, for: .scrollContent)
+                .contentMargins(.bottom, 100, for: .scrollContent)
+                .scrollDismissesKeyboard(.immediately)
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Rectangle()
-                .fill(.ultraThinMaterial)
-                .ignoresSafeArea()
-                .overlay(Color.black.opacity(0.35)))
+            .background {
+                Rectangle()
+                    .fill(.ultraThinMaterial)
+                    .ignoresSafeArea()
+            }
+            .overlay(alignment: .bottom) {
+                Button {
+                    withAnimation(.spring(response: 0.45, dampingFraction: 0.8)) {
+                        showingAddSubjectView.toggle()
+                    }
+                } label: {
+                    Image(systemName: showingAddSubjectView ? "xmark" : "plus")
+                        .font(.title2)
+                        .frame(width: 50, height: 50)
+                }
+                .buttonStyle(.glass)
+                .buttonBorderShape(.circle)
+                .padding()
+            }
 
-        }
-        .onTapGesture {
-            UIApplication.shared.sendAction(
-                #selector(UIResponder.resignFirstResponder),
-                to: nil, from: nil, for: nil
-            )
-        }
-        .scrollContentBackground(.hidden) 
+            // Back and overflow live in the content, not the navigation bar, so
+            // they move with the view during the interactive dismiss instead of
+            // being bridged into a UINavigationItem that animates separately.
+            .overlay(alignment: .top) {
+                HStack {
+                    circleButton("chevron.left", size: 32) {
+                        UIApplication.shared.sendAction(
+                            #selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil
+                        )
+                        dismiss()
+                    }
 
+                    Spacer()
+
+                    circleButton("ellipsis", size: 32) {
+                        // action
+                    }
+                }
+                .padding()
+            }
+            .toolbar(.hidden, for: .navigationBar)
+            .onTapGesture {
+                UIApplication.shared.sendAction(
+                    #selector(UIResponder.resignFirstResponder),
+                    to: nil, from: nil, for: nil
+                )
+            }
+    }
+
+    /// Matches the floating add/close button so the three controls read as a set.
+    private func circleButton(_ systemName: String, size: CGFloat = 50, action: @escaping () -> Void) -> some View {
+        Button(action: action) {
+            Image(systemName: systemName)
+                .font(.title2)
+                .frame(width: size, height: size)
+        }
+        .buttonStyle(.glass)
+        .buttonBorderShape(.circle)
     }
 }
 
@@ -131,7 +144,7 @@ struct SubjectCapsuleRow: View {
 
         }
         .buttonStyle(.plain)
-        .sensoryFeedback(.selection, trigger: isSelected) { _, isNowSelected in
+        .sensoryFeedback(.impact(weight: .heavy), trigger: isSelected) { _, isNowSelected in
             isNowSelected
         }
     }
