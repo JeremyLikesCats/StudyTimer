@@ -10,11 +10,11 @@ import SwiftUI
 struct ChooseSubjectView: View {
 
     @Bindable var subjects: SubjectsModel
-    @Binding var selectedSubjectID: UUID?
-
+    @Binding var showingSubjectList: Bool
+    
     @State var showingAddSubjectView: Bool = false
     @State private var addSubjectVisible = false
-
+    
 
     var body: some View {
         NavigationStack {
@@ -28,15 +28,18 @@ struct ChooseSubjectView: View {
                                     .glassEffect(.regular, in: RoundedRectangle(cornerRadius: 40))
                                     .transition(.opacity)
                             }
-                            LazyVStack(spacing: 15) {
+                            VStack(spacing: 15) {
 
                                 ForEach(subjects.subjects) { subject in
                                     SubjectCapsuleRow(
                                         subject: subject,
                                         subtitle: "25:00",
-                                        isSelected: subject.id == selectedSubjectID
+                                        isSelected: subject.id == subjects.selectedSubject?.id
                                     ) {
-                                        selectedSubjectID = subject.id
+                                        subjects.selectedSubject = subject
+                                        withAnimation(.spring(response: 0.45, dampingFraction: 0.8)) {
+                                            showingSubjectList = false
+                                        }
                                     }
                                     .glassEffect()
                                 }
@@ -79,7 +82,10 @@ struct ChooseSubjectView: View {
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.black.ignoresSafeArea())
+            .background(Rectangle()
+                .fill(.ultraThinMaterial)
+                .ignoresSafeArea()
+                .overlay(Color.black.opacity(0.35)))
 
         }
         .onTapGesture {
@@ -88,6 +94,7 @@ struct ChooseSubjectView: View {
                 to: nil, from: nil, for: nil
             )
         }
+        .scrollContentBackground(.hidden) 
 
     }
 }

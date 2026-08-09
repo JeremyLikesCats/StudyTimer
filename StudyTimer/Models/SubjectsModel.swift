@@ -15,4 +15,5 @@ final class SubjectsModel {
         Subject(id: UUID(), title: "English", color: "#0000FF"),
         Subject(id: UUID(), title: "Science", color: "#00AA00"),
     ]
+    public var selectedSubject: Subject?
 }

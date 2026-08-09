@@ -25,10 +25,6 @@ struct ContentView: View {
                 .onAppear {
                     timer.setDuration(as: (countdownMinutes * 60)) // Set Duration of timer
                 }
-            Text("Hello, World!")
-                .font(.title)
-                .padding()
-                .glassEffect(.regular.tint(.orange).interactive())
         }
     }
 }
